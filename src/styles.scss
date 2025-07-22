@@ -1,1 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+@use './app/assets/layout/layout.scss';
+@use 'primeicons/primeicons.css';
+@use './app//assets/demo/demo.scss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;/* You can add global styles to this file, and also import other style files */
