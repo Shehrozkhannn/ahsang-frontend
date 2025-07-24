@@ -11,48 +11,48 @@
                     <span class="text-muted-color font-medium">Register to get started</span>
                 </div>
 
-                <div>
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
                     <!-- Full Name -->
-                    <label for="fullname"
+                    <label for="username"
                         class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Full Name</label>
-                    <input pInputText id="fullname" type="text" placeholder="John Doe"
+                    <input pInputText id="username" type="text" placeholder="Enter Your Name" formControlName="username"
                         class="w-full md:w-[30rem] mb-8" />
 
                     <!-- Email -->
                     <label for="email"
                         class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Email</label>
-                    <input pInputText id="email" type="email" placeholder="Email address"
+                    <input pInputText id="email" formControlName="email" type="email" placeholder="Email address"
                         class="w-full md:w-[30rem] mb-8" />
 
                     <!-- Password -->
                     <label for="password"
                         class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Password</label>
                     <p-password id="password" placeholder="Password" styleClass="w-full md:w-[30rem] mb-8"
-                        inputStyleClass="w-full" [feedback]="false">
+                        inputStyleClass="w-full" [feedback]="false" formControlName="password">
                     </p-password>
 
                     <!-- Confirm Password -->
                     <label for="confirmPassword"
                         class="block text-surface-900 dark:text-surface-0 text-xl font-medium mb-2">Confirm Password</label>
-                    <p-password id="confirmPassword" placeholder="Confirm Password"
+                    <p-password id="confirmPassword" placeholder="Confirm Password" formControlName="confirmPassword" 
                         styleClass="w-full md:w-[30rem] mb-8" inputStyleClass="w-full" [feedback]="false">
                     </p-password>
 
                     <!-- Terms and Conditions -->
                     <div class="flex items-center mb-8">
-                        <p-checkbox id="terms" binary class="mr-2"></p-checkbox>
+                        <p-checkbox id="terms" binary class="mr-2" formControlName="terms"></p-checkbox>
                         <label for="terms">I agree to the Terms and Conditions</label>
                     </div>
 
                     <!-- Register Button -->
-                    <p-button label="Register" styleClass="w-full" routerLink="/"></p-button>
+                    <p-button label="Register" styleClass="w-full" type="submit" [disabled]="registerForm.invalid"></p-button>
 
                     <!-- Already have account -->
                     <div class="text-center mt-6 text-muted-color">
                         Already have an account?
                         <a routerLink="/login" class="text-primary font-medium cursor-pointer">Sign In</a>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>

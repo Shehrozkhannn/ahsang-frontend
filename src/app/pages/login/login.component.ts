@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Password } from "primeng/password";
 import { Checkbox } from "primeng/checkbox";
 import { Button } from "primeng/button";
 import { InputTextModule } from 'primeng/inputtext';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,20 +15,29 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  loginForm: FormGroup;
+    loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+  constructor(private authService: AuthService, private router: Router) {
+    this.loginForm = new FormGroup({
+      username: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
   }
 
-  onLogin() {
-    if (this.loginForm.valid) {
-      const credentials = this.loginForm.value;
-      console.log('Login Attempt:', credentials);
-      // Call backend here (POST /auth/login)
-    }
+  onSubmit(): void {
+    if (this.loginForm.invalid) return;
+
+    const { username, password } = this.loginForm.value;
+
+    this.authService.login({username, password}).subscribe({
+      next: (res:any) => {
+        localStorage.setItem('token', res.token);
+        this.router.navigate(['/']); // redirect after login
+      },
+      error: (err) => {
+        console.error(err);
+        alert('Invalid credentials');
+      }
+    });
   }
 }

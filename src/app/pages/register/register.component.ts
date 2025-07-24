@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Button } from 'primeng/button';
 import { Checkbox } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { Password } from 'primeng/password';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -12,5 +14,36 @@ import { Password } from 'primeng/password';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  registerForm: FormGroup;
 
+   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.registerForm = this.fb.group({
+      username: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+      terms: [false, Validators.requiredTrue],
+    }, { validators: this.passwordsMatchValidator });
+  }
+
+  
+  passwordsMatchValidator(form: FormGroup) {
+    return form.get('password')?.value === form.get('confirmPassword')?.value
+      ? null : { mismatch: true };
+  }
+
+    onSubmit() {
+    if (this.registerForm.invalid) return;
+
+    const { username, email, password } = this.registerForm.value;
+    this.authService.register({ username, email, password }).subscribe({
+      next: (res:any) => {
+        localStorage.setItem('userId', res.id);
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        console.error('Registration failed:', err);
+      }
+    });
+  }
 }
