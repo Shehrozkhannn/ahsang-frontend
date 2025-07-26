@@ -1,59 +1,81 @@
-# BlogsNg
+# Full Stack Application – Angular + NestJS
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.5.
+# 🌐 Frontend – Angular 17 + PrimeNG (Sakai-NG)
 
-## Development server
+This is the frontend of the full-stack application built using Angular 17 and PrimeNG's Sakai-NG template.
 
-To start a local development server, run:
+---
 
+## 📦 Tech Stack
+
+- Angular 17 (Standalone Components)
+- PrimeNG (Sakai-NG)
+- PrimeFlex for styling
+- JWT-based authentication
+- Angular Router, Interceptors & Route Guards
+
+---
+
+## 🚀 Setup Instructions
+
+### Prerequisites
+
+- Node.js v18+
+- Angular CLI
 ```bash
+npm install -g @angular/cli
+cd frontend
+npm install
 ng serve
 ```
+## 📦 Auth Flow
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+User logs in with credentials.
 
-## Code scaffolding
+Token received from the backend is stored in localStorage.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+An HTTP interceptor attaches the token to API requests.
 
-```bash
-ng generate component component-name
-```
+Angular route guards protect restricted routes based on login state.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Toast Notifications
+Toast messages are triggered via PrimeNG's MessageService.
 
-```bash
-ng generate --help
-```
+Used for:
 
-## Building
+Success/Error feedback
 
-To build the project run:
+Form validations
 
-```bash
-ng build
-```
+Login/logout events
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🚀 Bonus Features 
 
-## Running unit tests
+Responsive layout with PrimeFlex
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Reusable components (inputs, buttons, forms)
 
-```bash
-ng test
-```
+Angular Route Guards for protected views
 
-## Running end-to-end tests
+Centralized toast notifications
 
-For end-to-end (e2e) testing, run:
+JWT storage and auto-logout on token expiry
 
-```bash
-ng e2e
-```
+Form validation with visual cues
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Folder Structure
 
-## Additional Resources
+/src
+ ┣ /app
+ ┃ ┣ /core
+ ┃ ┣ /layout
+ ┃ ┣ /pages
+ ┃ ┗ app.routes.ts
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 📦 Environment Setup
+
+export const environment = {
+  production: false,
+  apiUrl: 'http://localhost:3000/api'
+};
+
