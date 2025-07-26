@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { PostsService } from '../../core/services/posts.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-post-detail',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './post-detail.component.html',
   styleUrl: './post-detail.component.scss'
 })
@@ -12,14 +14,14 @@ export class PostDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
-    // private blogService: BlogService
-  ) {}
+    private postService: PostsService
+  ) { }
 
   ngOnInit() {
-    // const id = this.route.snapshot.paramMap.get('id');
-    // this.blogService.getPostById(id).subscribe((data:any) => {
-    //   this.post = data;
-    // });
+    const id = +this.route.snapshot.paramMap.get('id')!;
+    this.postService.getPost(id).subscribe((res) => {
+      this.post = res;
+    });
   }
 }
 

@@ -1,7 +1,12 @@
-<ag-grid-angular 
-  class="ag-theme-alpine w-full h-[500px]" 
-  [rowData]="rowData"
+<ag-grid-angular
+  class="ag-theme-alpine"
+  style="width: 100%; height: 600px;"
   [columnDefs]="columnDefs"
-  pagination="true"
-  [paginationPageSize]="5">
+  [defaultColDef]="defaultColDef"
+  [rowModelType]="rowModelType"
+   [paginationPageSize]="5"  
+  [cacheBlockSize]="cacheBlockSize"
+  [infiniteInitialRowCount]="1"
+  [pagination]="true"
+  (gridReady)="onGridReady($event)">
 </ag-grid-angular>

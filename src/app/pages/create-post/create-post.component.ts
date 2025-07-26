@@ -5,10 +5,12 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { PostsService } from '../../core/services/posts.service';
 import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-create-post',
-  imports: [ButtonModule, InputTextModule, TextareaModule,ReactiveFormsModule],
+  imports: [ButtonModule, InputTextModule, TextareaModule,ReactiveFormsModule, ToastModule],
   templateUrl: './create-post.component.html',
   styleUrl: './create-post.component.scss'
 })
@@ -19,7 +21,7 @@ export class CreatePostComponent {
   });
 
   constructor(private postService: PostsService,
-    private router: Router) {
+    private router: Router, private messageService: MessageService) {
   }
 
   onSubmit() {
@@ -30,9 +32,9 @@ export class CreatePostComponent {
         body: this.postForm.value.body as string,
         userId: userId
       };
-      console.log(localStorage.getItem('access_token'));
       this.postService.createPost(postData).subscribe(() => {
         this.router.navigate(['/']);
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Blog Post Created Succesfully!' });
       });
     }
   }

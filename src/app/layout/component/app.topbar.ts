@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { StyleClassModule } from 'primeng/styleclass';
 import { AppConfigurator } from './app.configurator';
 import { LayoutService } from '../service/layout.service';
+import { AuthService } from '../../core/auth/auth.service';
 
 @Component({
     selector: 'app-topbar',
@@ -72,10 +73,31 @@ import { LayoutService } from '../service/layout.service';
                         <i class="pi pi-inbox"></i>
                         <span>Messages</span>
                     </button>
-                    <button type="button" class="layout-topbar-action">
-                        <i class="pi pi-user"></i>
-                        <span>Profile</span>
-                    </button>
+                       <div class="relative" (clickOutside)="showProfileMenu = false">
+            <button
+                type="button"
+                class="layout-topbar-action"
+                (click)="toggleProfileMenu()"
+            >
+                <i class="pi pi-user"></i>
+                <span>{{ user.name }}</span>
+            </button>
+
+            <div
+                *ngIf="showProfileMenu"
+                class="absolute right-0 mt-2 w-40 bg-white dark:bg-surface-800 shadow-md rounded-md z-10"
+            >
+                <button class="w-full text-left px-4 py-2 hover:bg-surface-100 dark:hover:bg-surface-700">
+                    {{ user.name }}
+                </button>
+                <button
+                    class="w-full text-left px-4 py-2 hover:bg-surface-100 dark:hover:bg-surface-700 text-red-500"
+                    (click)="logout()"
+                >
+                    Logout
+                </button>
+            </div>
+        </div>
                 </div>
             </div>
         </div>
@@ -83,10 +105,19 @@ import { LayoutService } from '../service/layout.service';
 })
 export class AppTopbar {
     items!: MenuItem[];
-
-    constructor(public layoutService: LayoutService) {}
+    showProfileMenu = false;
+    user = { name: localStorage.getItem('user_name') || 'Guest'
+    };
+    constructor(public layoutService: LayoutService, private authService: AuthService) { }
 
     toggleDarkMode() {
         this.layoutService.layoutConfig.update((state) => ({ ...state, darkTheme: !state.darkTheme }));
     }
+    logout() {
+        this.authService.logout();
+        this.showProfileMenu = false;
+    }
+    toggleProfileMenu() {
+    this.showProfileMenu = !this.showProfileMenu;
+}
 }

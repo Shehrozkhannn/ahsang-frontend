@@ -1,6 +1,6 @@
-<!-- <div class="p-4 md:p-8">
+<div class="p-4 md:p-8">
   <h1 class="text-3xl font-bold mb-4">{{ post?.title }}</h1>
-  <p class="text-gray-600 mb-2">Author: {{ post?.author }}</p>
-  <p class="text-gray-500 mb-6">Published: {{ post?.publishedDate | date }}</p>
+  <p class="text-gray-600 mb-2">Author: {{ post?.author?.username }}</p>
+  <p class="text-gray-500 mb-6">Published: {{ post?.createdAt | date }}</p>
   <div class="text-lg leading-relaxed" [innerHTML]="post?.body"></div>
-</div> -->
+</div>
